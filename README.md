@@ -1,3 +1,5 @@
+Naudojama Java 11, Hibernate, MySql, Lombok
+
 Programa kuria ir leidžia spręsti testus,. Teste pateikiami klausimai su trimis atsakymų variantais tik vienas yra teisingas.
 Paleidus programa, ji automatiškai sukuria reikiamas lenteles, vieną vartotoją  admin (slaptažodis admin), kuris turi teisę kurti ir redaguoti testų klausimus. Taip pat įkelia iš failo vieną pavyzdinį testą.
 Naują testą galima įketi iš failo, kurio struktūra analogiška testui faile egzamData.txt. Esamų testų klausimus galima redaguoti arba pridėti naujų.
