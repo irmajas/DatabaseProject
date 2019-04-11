@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="my-persistence-unit">
+        <description>Hibernate Tips</description>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://${host}:${port}/${db.name}?serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="${user.name}"/>
+            <property name="javax.persistence.jdbc.password" value="${user.password}"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <property name = "hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider"/>
+
+            <property name="hibernate.show_sql" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>
