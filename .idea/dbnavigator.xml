@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="false" />
+    <value-preview-text-wrapping value="true" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -23,11 +23,73 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="e65012cc-542e-4430-a59c-23f65a245a4e">
+        <schema name="information_schema" object-types="function" />
+        <schema name="pg_catalog" object-types="function, view, table" />
+        <schema name="public" object-types="column, sequence, function, view, table" />
+      </connection>
+      <connection connection-id="0551b4e8-8e21-46c0-a831-f9b905665a99">
+        <schema name="public" object-types="column, index, sequence, function, dataset trigger, constraint, view, table" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e65012cc-542e-4430-a59c-23f65a245a4e">
-      <console name="Connection" type="STANDARD" schema="information_schema" session="Main" />
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * from fn_get_population_by('Abuja');
+CREATE FUNCTION public.fn_get_population_by(IN prm_capital_name character varying)
+RETURNS json 
+AS
+$BODY$
+BEGIN 
+ RETURN (
+     WITH _city AS (
+      SELECT id, name AS capitalName,
+      countrycode AS capitalCode
+      FROM city
+      WHERE name = '' || prm_capital_name || ''),
+       _data AS (
+       SELECT capitalName,
+        capitalCode,
+        c.population,
+        c2.language,
+        c2.percentage
+        FROM country c
+        JOIN _city a on a.id = c.capital
+        JOIN countrylanguage c2 on c.code = c2.countrycode
+        WHERE TRUE)
+        SELECT json_agg(r.*) as json_data
+        FROM _data AS r);
+ END;
+ $BODY$
+ LANGUAGE 'plpgsql';]]></console>
+      <console name="Connection 1" type="STANDARD" schema="public" session="Main" />
+      <console name="Connection 2" type="STANDARD" schema="public" session="Main"><![CDATA[create  view Abuja2 (name,ccode,population,language,percent)as (
+select  a.name as "Capital name",
+a.countrycode as "Capital code",
+a.population as "Population",
+c2.language as "language",
+c2.percentage as "Percentage"
+From city as a
+join country as c on a.id=c.capital
+JOIN  countrylanguage as c2 on c.code=c2.countrycode
+where a.name='Abuja'
+order by 1 asc, 5  desc)
+
+select * from Abuja2
+
+WITH cte AS(
+    SELECT *,ROW_NUMBER()OVER(ORDER BY t.Population) AS RowNum
+    FROM Abuja2 as t
+)
+SELECT cte.* FROM cte
+WHERE  mod(RowNum,2) = 0]]></console>
+    </connection>
+    <connection id="abc64765-059e-4aff-a84b-5e68838db7f1">
+      <console name="Connection 1" type="STANDARD" schema="mysql" session="Main" />
+    </connection>
+    <connection id="0551b4e8-8e21-46c0-a831-f9b905665a99">
+      <console name="Connection 2" type="STANDARD" schema="information_schema" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -35,6 +97,8 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="e65012cc-542e-4430-a59c-23f65a245a4e" />
+    <connection id="abc64765-059e-4aff-a84b-5e68838db7f1" />
+    <connection id="0551b4e8-8e21-46c0-a831-f9b905665a99" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -62,6 +126,174 @@
       <connection id="e65012cc-542e-4430-a59c-23f65a245a4e" active="true">
         <database>
           <name value="Connection" />
+          <description value="" />
+          <database-type value="POSTGRES" />
+          <config-type value="BASIC" />
+          <database-version value="11.2" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="DATABASE" />
+          <host value="localhost" />
+          <port value="5432" />
+          <database value="postgres" />
+          <os-authentication value="false" />
+          <empty-authentication value="false" />
+          <user value="postgres" />
+          <deprecated-pwd value="amF2YTIwMTk=" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="abc64765-059e-4aff-a84b-5e68838db7f1" active="true">
+        <database>
+          <name value="Connection 1" />
+          <description value="" />
+          <database-type value="MYSQL" />
+          <config-type value="BASIC" />
+          <database-version value="8.0" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="DATABASE" />
+          <host value="localhost" />
+          <port value="3306" />
+          <database value="mysql" />
+          <os-authentication value="false" />
+          <empty-authentication value="false" />
+          <user value="root" />
+          <deprecated-pwd value="amF2YTIwMTk=" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="0551b4e8-8e21-46c0-a831-f9b905665a99" active="true">
+        <database>
+          <name value="Connection 2" />
           <description value="" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />

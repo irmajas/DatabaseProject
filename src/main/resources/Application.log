@@ -62,3 +62,5 @@
 20:25:27.934 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper - Unknown database 'exams'
 20:26:02.034 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
 09:16:48.652 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+11:53:22.765 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+17:56:45.774 [main] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
