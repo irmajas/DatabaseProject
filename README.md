@@ -12,3 +12,4 @@ Vardas	 Laike	Baigė  	Max_teisingu	Min_teisingu	Vid_teisingu     Max_laikas    
 
 
 Norėdami patikrinti program, parsisiutę repozitoriją pakeistkite failą META-INF/persistence_example.xml pagal savo duomenų basę.
+
