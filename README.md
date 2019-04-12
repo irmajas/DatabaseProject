@@ -11,6 +11,6 @@ viso studentu yra: 8
 Vardas	 Laike	Baigė  	Max_teisingu	Min_teisingu	Vid_teisingu     Max_laikas       Min_laikas	Vid_laikas
 
 
-Norėdami patikrinti program, parsisiutę repozitoriją pakeistkite failą META-INF/persistence_example.xml pagal savo duomenų basę.
+Norėdami patikrinti programą, parsisiuntę repozitoriją pakeiskite failą META-INF/persistence_example.xml pagal savo duomenų basę.
 
 ![](https://github.com/irmajas/DatabaseProject/blob/master/src/main/resources/Capture.JPG)
